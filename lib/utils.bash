@@ -60,15 +60,15 @@ install_version() {
 	(
 		mkdir -p "$install_path"
 
-    local TMP_BIN=""
-    if ! command -v rebar3 >/dev/null 2>&1; then
-        echo "rebar3 not found, downloading temporary binary..."
-        TMP_BIN=$(mktemp -d)
-        trap 'rm -rf "$TMP_BIN"' EXIT
-        curl -L -o "$TMP_BIN/rebar3" "https://s3.amazonaws.com/rebar3/rebar3"
-        chmod +x "$TMP_BIN/rebar3"
-        export PATH="$TMP_BIN:$PATH"
-    fi
+		local TMP_BIN=""
+		if ! command -v rebar3 >/dev/null 2>&1; then
+			echo "rebar3 not found, downloading temporary binary..."
+			TMP_BIN=$(mktemp -d)
+			trap 'rm -rf "$TMP_BIN"' EXIT
+			curl -L -o "$TMP_BIN/rebar3" "https://s3.amazonaws.com/rebar3/rebar3"
+			chmod +x "$TMP_BIN/rebar3"
+			export PATH="$TMP_BIN:$PATH"
+		fi
 
 		cp -r "$ASDF_DOWNLOAD_PATH"/* "$install_path"
 
@@ -81,7 +81,7 @@ install_version() {
 		fi
 
 		mkdir -p "$install_path/bin"
-		cat <<EOF >> "$install_path/bin/$TOOL_NAME"
+		cat <<EOF >>"$install_path/bin/$TOOL_NAME"
 #!/usr/bin/env bash
 
 exec "$install_path/$TOOL_NAME" "\$@"
